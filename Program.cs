@@ -13,8 +13,8 @@ namespace BangazonProductRevenueReports
 
             //Comment out these two lines for speed purposes after the initial db creation 
             //Uncomment them and run to generate fresh data
-            // DatabaseGenerator gen = new DatabaseGenerator();
-            // gen.CreateDatabase();
+            DatabaseGenerator gen = new DatabaseGenerator();
+            gen.CreateDatabase();
 
             SqliteCommand cs = new SqliteCommand();
             cs.Connection = new SqliteConnection(connectionString);
