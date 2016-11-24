@@ -9,15 +9,19 @@ namespace BangazonProductRevenueReports
     {
         public static void Main(string[] args)
         {
-            var connectionString = $"Filename={System.Environment.GetEnvironmentVariable("REPORTING_DB_PATH")}";
+            DatabaseSeed databaseSeed = new DatabaseSeed();
+            databaseSeed.createTables();
+            // var connectionString = $"Filename={System.Environment.GetEnvironmentVariable("REPORTING_DB_PATH")}";
 
             //Comment out these two lines for speed purposes after the initial db creation 
             //Uncomment them and run to generate fresh data
-            // DatabaseGenerator gen = new DatabaseGenerator();
-            // gen.CreateDatabase();
+                // DatabaseGenerator gen = new DatabaseGenerator();
+                // gen.CreateDatabase();
+
+            string connectionstring = databaseSeed.ConnectionString();
 
             SqliteCommand cs = new SqliteCommand();
-            cs.Connection = new SqliteConnection(connectionString);
+            cs.Connection = new SqliteConnection(connectionstring);
             cs.CommandType = CommandType.Text;
             SqliteDataReader reader;
             
