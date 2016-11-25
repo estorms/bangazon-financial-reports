@@ -6,19 +6,17 @@ namespace BangazonFinancialReportsTests
 {
     public class DatabaseTest
     {
-        DatabaseSeed databaseSeed = new DatabaseSeed();
+        DatabaseConnection DatabaseConnection = new DatabaseConnection();
         [Fact]
         public void CanOpenConnectionToTheDatabase()
         {
         
-        var connectionString = databaseSeed.ConnectionString();
-        Assert.NotNull(databaseSeed.ConnectionString());
-        Assert.Equal(connectionString, databaseSeed.ConnectionString());
+        var connectionString = DatabaseConnection.ConnectionString();
+        Assert.NotNull(DatabaseConnection.ConnectionString());
+        Assert.Equal(connectionString, DatabaseConnection.ConnectionString());
         Assert.Equal(connectionString, $"Filename={System.Environment.GetEnvironmentVariable("REPORTING_DB_PATH")}");
  
         }
-
-        
 
     }
 }
