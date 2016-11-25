@@ -1,10 +1,17 @@
-﻿using System;
+using System;
+using System.Collections.Generic;
 using Microsoft.Data.Sqlite;
 
-namespace BangazonProductRevenueReports
+namespace BangazonFinancialReports
 {
-    public class DatabaseGenerator
+    public class DatabaseSeed
     {
+
+        private static string _connectionString = $"Filename={System.Environment.GetEnvironmentVariable("REPORTING_DB_PATH")}";
+
+        public string ConnectionString() {
+            return _connectionString;
+        }
         Random rnd = new Random();
 
         string[] customers = new[] { "Carys", "Emmett", "Latoya", "Trina", "Kade", "Torin", "Aggie", "Caelan", "Patsy", "Bettina", "Hans", "Leda", "Clair", "Evan", "Roscoe", "Sondra", "Dixon", "Gail" };
@@ -16,6 +23,43 @@ namespace BangazonProductRevenueReports
         string[] customerAddressStreet = new[] { "Mallory Lane", "Carothers Pkwy", "Claybrook Lane", "Bending Creek Drive", "Old Hickory Blvd", "Harris Ave", "21st Ave N", "Plus Park Blvd", "Interstate Blvd S", "Whitney Ave", "Bell Rd", "Harding Pky", "Nolesville Road", "Charlotte Ave" };
         int[] customerZipcode = new int[] { 37013, 37072, 38461, 37115, 37116, 37201, 37211, 37216, 37222 };
         string[] supplierState = new string[] { "AK", "AL", "AR", "AZ", "CA", "CO", "CT", "DE", "DC", "FL", "GA", "HA", "ID", "IL", "IN", "IA", "KA", "KY", "LA", "ME", "MD", "MS", "MC", "MN", "MI", "MO", "MT", "NB", "NV", "NH", "NJ", "NC", "NY", "NM", "ND", "OH", "OK", "OR", "PA", "RI", "SC", "SD", "TN", "TX", "UT", "VT", "WA", "WV", "WI", "WY" };
+
+        public void createTables()
+        {
+            try
+            {
+                SqliteConnection connection = new SqliteConnection(_connectionString);
+                using (connection)
+                {
+                    connection.Open();
+
+                    SqliteCommand command = connection.CreateCommand();
+                    string RevenueTable = "CREATE TABLE Revenue (" +
+                                    "[Id] INTEGER NOT NULL CONSTRAINT \"PK_Revenue\" PRIMARY KEY AUTOINCREMENT, " +
+                                    "[ProductName] TEXT NOT NULL, " +
+                                    "[ProductCost] INTEGER NOT NULL," +
+                                    "[ProductRevenue] INTEGER NOT NULL, " +
+                                    "[ProductSupplierState] TEXT NOT NULL, " +
+                                    "[CustomerFirstName] TEXT NOT NULL, " +
+                                    "[CustomerLastName] TEXT NOT NULL, " +
+                                    "[CustomerAddress] TEXT NOT NULL, " +
+                                    "[CustomerZipCode] INTEGER NOT NULL, " +
+                                    "[PurchaseDate] TEXT NOT NULL DEFAULT (strftime('%Y-%m-%d %H:%M:%S')) " +
+                                "); "
+                                + RandomizeCustomerProducts(1000);
+                    command.CommandText = RevenueTable;
+                    command.ExecuteNonQuery();
+                    // clean up
+                    command.Dispose();
+                    connection.Close();
+
+                }
+            }
+            catch (SqliteException ex)
+            {
+                Console.WriteLine(ex);
+            }
+        }
         public string RandomizeCustomerProducts()
         {
             var rnd1 = rnd.Next(customers.Length);
@@ -52,34 +96,6 @@ namespace BangazonProductRevenueReports
             string returnstring = "";
             for (var i = 0; i < numOfEntries; i++) { returnstring += RandomizeCustomerProducts(); }
             return returnstring;
-        }
-
-        public void CreateDatabase()
-        {
-
-            string sql3 = "CREATE TABLE Revenue (" +
-                                "[Id] INTEGER NOT NULL CONSTRAINT \"PK_Revenue\" PRIMARY KEY AUTOINCREMENT, " +
-                                "[ProductName] TEXT NOT NULL, " +
-                                "[ProductCost] INTEGER NOT NULL," +
-                                "[ProductRevenue] INTEGER NOT NULL, " +
-                                "[ProductSupplierState] TEXT NOT NULL, " +
-                                "[CustomerFirstName] TEXT NOT NULL, " +
-                                "[CustomerLastName] TEXT NOT NULL, " +
-                                "[CustomerAddress] TEXT NOT NULL, " +
-                                "[CustomerZipCode] INTEGER NOT NULL, " +
-                                "[PurchaseDate] TEXT NOT NULL DEFAULT (strftime('%Y-%m-%d %H:%M:%S')) " +
-                            "); "
-                            + RandomizeCustomerProducts(1000);
-
-            var connectionString = $"Filename={System.Environment.GetEnvironmentVariable("REPORTING_DB_PATH")}";
-
-            SqliteConnection connection = new SqliteConnection(connectionString);
-            using (connection)
-            {
-                connection.Open();
-                SqliteCommand command3 = new SqliteCommand(sql3, connection);
-                command3.ExecuteNonQuery();
-            }
         }
     }
 }

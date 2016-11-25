@@ -3,26 +3,24 @@ using System.Collections.Generic;
 using System.Data;
 using Microsoft.Data.Sqlite;
 
-namespace BangazonProductRevenueReports
+namespace BangazonFinancialReports
 {
     public class Program
     {
         public static void Main(string[] args)
         {
-            var connectionString = $"Filename={System.Environment.GetEnvironmentVariable("REPORTING_DB_PATH")}";
-
-            //Comment out these two lines for speed purposes after the initial db creation 
-            //Uncomment them and run to generate fresh data
-            // DatabaseGenerator gen = new DatabaseGenerator();
-            // gen.CreateDatabase();
+            DatabaseSeed databaseSeed = new DatabaseSeed();
+            databaseSeed.createTables();
+            string connectionstring = databaseSeed.ConnectionString();
 
             SqliteCommand cs = new SqliteCommand();
-            cs.Connection = new SqliteConnection(connectionString);
+            cs.Connection = new SqliteConnection(connectionstring);
             cs.CommandType = CommandType.Text;
             SqliteDataReader reader;
             
                         //List<string> Names = new List<string>();
             //List<string> Values = new List<string>()
+            //make dictionary?
             List<KeyValuePair<string, int>> reportValues = new List<KeyValuePair<string, int>>();
 
             Console.WriteLine("Bangazon Reports");
