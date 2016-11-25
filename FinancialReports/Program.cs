@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Data;
 using Microsoft.Data.Sqlite;
 
-namespace BangazonProductRevenueReports
+namespace BangazonFinancialReports
 {
     public class Program
     {
