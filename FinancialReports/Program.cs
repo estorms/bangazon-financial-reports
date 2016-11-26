@@ -43,7 +43,7 @@ namespace BangazonFinancialReports
 
             List<string> Names = new List<string>();
             List<string> Values = new List<string>();
-            //make dictionary?
+            //Has to be a list of KeyValuePairs, rather than a dictionary, b/c a dictionary won't allow duplicate keys and product list has many
             List<KeyValuePair<string, int>> reportValues = new List<KeyValuePair<string, int>>();
 
             Console.WriteLine("Bangazon Reports");
@@ -69,33 +69,41 @@ namespace BangazonFinancialReports
                     sqliteCommand.CommandText = "SELECT * FROM Revenue";
                     sqliteCommand.Connection.Open();
                    var reader = sqliteCommand.ExecuteReader();
-                    //var proDict = new Dictionary<string, int>();
                     while (reader.Read())
                     {
+                        //product name
                         var i = reader[1];
+                        //product name as one string
                         var hh = i.ToString();
+                        //product revenue
                         var a = reader[3];
+                        //product revenue to string
                         var t = a.ToString();
+                        //product revenue string to int?
                         var e = int.Parse(t);
+                        //purchase date
                         var r = reader[9];
-                        //  e
+                        //  purchase date to string
                         var p = r.ToString();
+                        //parsing date from purchase-date string?
                         var o = DateTime.Parse(p);
-                        //  r
-                        //  t
+                       //establishing end of prior week
                         var s = DateTime.Today.AddDays(-7);
+                        //sets report data as key value pair, first value product name, second value product revenue
                         var reportData = new KeyValuePair<string, int>(hh, e);
+
+                        //conditional excludes products purchased during the current week from the report
                         if (o > s)
                         {
-                            //proDict.Add(h, e); throws error GRRRRRR      
+                            // proDict.Add(hh, e);     
                             reportValues.Add(reportData);
                         }
                     }
 
 
-                    foreach (var y in reportValues)
+                    foreach (KeyValuePair<string, int> entry in reportValues)
                     {
-                        Console.WriteLine(string.Format("{0} was purchased with ${1}.00 in revenue.", y.Key, y.Value));
+                        Console.WriteLine(string.Format("{0} was purchased with ${1}.00 in revenue.", entry.Key, entry.Value));
                     }
                     break;
             }
