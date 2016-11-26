@@ -41,18 +41,18 @@ namespace BangazonFinancialReports
             }
 
 
-            //List<string> Names = new List<string>();
-            //List<string> Values = new List<string>()
-            // //make dictionary?
-            // List<KeyValuePair<string, int>> reportValues = new List<KeyValuePair<string, int>>();
+            List<string> Names = new List<string>();
+            List<string> Values = new List<string>();
+            //make dictionary?
+            List<KeyValuePair<string, int>> reportValues = new List<KeyValuePair<string, int>>();
 
-            // Console.WriteLine("Bangazon Reports");
-            // bool go_on = true;
+            Console.WriteLine("Bangazon Reports");
+            bool go_on = true;
 
-            // while (go_on)
-            // {
-            //     try
-            //     {
+            while (go_on)
+            {
+                try
+                {
 
             Console.WriteLine("1 - Last Week Report");
             Console.WriteLine("2 - Last Month Report");
@@ -60,43 +60,46 @@ namespace BangazonFinancialReports
             Console.WriteLine("4 - Rev by customer");
             Console.WriteLine("5 - Rev by product");
 
-            // var stuff = Console.ReadLine();
+            var userChoice = Console.ReadLine();
+            Console.WriteLine(userChoice);
 
-            // switch (stuff)
-            // {
-            //     case "1":
-            //         sqliteCommand.CommandText = "SELECT * FROM Revenue";
-            //         sqliteCommand.Connection.Open();
-            //         reader = sqliteCommand.ExecuteReader();
-            //         //var proDict = new Dictionary<string, int>();
-            //         while (reader.Read())
-            //         {
-            //             var i = reader[1];
-            //             var hh = i.ToString();
-            //             var a = reader[3];
-            //             var t = a.ToString();
-            //             var e = int.Parse(t);
-            //             var r = reader[9];
-            //             //  e
-            //             var p = r.ToString();
-            //             var o = DateTime.Parse(p);
-            //             //  r
-            //             //  t
-            //             var s = DateTime.Today.AddDays(-7);
-            //             var straightupbull = new KeyValuePair<string, int>(hh, e);
-            //             if (o > s)
-            //             {
-            //                 //proDict.Add(h, e); throws error GRRRRRR      
-            //                 reportValues.Add(straightupbull);
-            //             }
-            //         }
+            switch (userChoice)
+            {
+                case "1":
+                    sqliteCommand.CommandText = "SELECT * FROM Revenue";
+                    sqliteCommand.Connection.Open();
+                   var reader = sqliteCommand.ExecuteReader();
+                    //var proDict = new Dictionary<string, int>();
+                    while (reader.Read())
+                    {
+                        var i = reader[1];
+                        var hh = i.ToString();
+                        var a = reader[3];
+                        var t = a.ToString();
+                        var e = int.Parse(t);
+                        var r = reader[9];
+                        //  e
+                        var p = r.ToString();
+                        var o = DateTime.Parse(p);
+                        //  r
+                        //  t
+                        var s = DateTime.Today.AddDays(-7);
+                        var reportData = new KeyValuePair<string, int>(hh, e);
+                        if (o > s)
+                        {
+                            //proDict.Add(h, e); throws error GRRRRRR      
+                            reportValues.Add(reportData);
+                        }
+                    }
 
-            //         foreach (var y in reportValues)
-            //         {
-            //             Console.WriteLine(string.Format("{0} was purchased with ${1}.00 in revenue.", y.Key, y.Value));
-            //         }
-            //         break;
-            //     case "2":
+
+                    foreach (var y in reportValues)
+                    {
+                        Console.WriteLine(string.Format("{0} was purchased with ${1}.00 in revenue.", y.Key, y.Value));
+                    }
+                    break;
+            }
+                // case "2":
             //         sqliteCommand.CommandText = "SELECT * FROM Revenue";
             //         //
             //         sqliteCommand.Connection.Open();
@@ -205,42 +208,43 @@ namespace BangazonFinancialReports
             //         }
 
             //JUST IN CASE SORTING DOESN"T WORK
-            /*Dictionary<string, int> productsReportValues = new Dictionary<string, int>();
-            while (reader.Read())
-            {
+            // Dictionary<string, int> productsReportValues = new Dictionary<string, int>();
+            // while (reader.Read())
+            // {
 
-                //Dictionary<string, int> productsReportValues = new Dictionary<string, int>();
-                if (productsReportValues.ContainsKey(reader[1].ToString()))
-                {
-                    productsReportValues[reader[1].ToString()] += int.Parse(reader[3].ToString());
-                }
-                else
-                {
-                    productsReportValues.Add(reader[1].ToString(), int.Parse(reader[3].ToString()));
-                }
-            }
+            //     //Dictionary<string, int> productsReportValues = new Dictionary<string, int>();
+            //     if (productsReportValues.ContainsKey(reader[1].ToString()))
+            //     {
+            //         productsReportValues[reader[1].ToString()] += int.Parse(reader[3].ToString());
+            //     }
+            //     else
+            //     {
+            //         productsReportValues.Add(reader[1].ToString(), int.Parse(reader[3].ToString()));
+            //     }
+            // }
 
-            foreach (var val in productsReportValues)
-//                 {
-//                     Console.WriteLine(string.Format("{0} brought in a total of ${1}.00 in revenue.", val.Key, val.Value));
-//                 }*/
+            // foreach (var val in productsReportValues)
+            //     {
+            //         Console.WriteLine(string.Format("{0} brought in a total of ${1}.00 in revenue.", val.Key, val.Value));
+            //     }
             //                 break;
             //             default:
             //                 Console.WriteLine("Invalid input. Try Again.");
             //                 break;
             //         }
             //         Console.ReadKey();
-            //     }
-            //     catch (Exception ex)
-            //     {
-            //         //ADDING ERROR HANDLING
-            //         Console.WriteLine("Sorry an error has occcured. Please try agin ");
-            //         Console.WriteLine($"{ex}");
-            //         go_on = false;
-            //         Console.ReadKey();
-            //     }
-
+                }
+                catch (Exception ex)
+                {
+                    //ADDING ERROR HANDLING
+                    Console.WriteLine("Sorry an error has occcured. Please try agin ");
+                    Console.WriteLine($"{ex}");
+                    go_on = false;
+                    Console.ReadKey();
+                }
+                }
+            }
         }
-    }
 }
+
 
