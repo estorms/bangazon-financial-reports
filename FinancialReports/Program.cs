@@ -12,8 +12,8 @@ namespace BangazonFinancialReports
             bool dbIsFullySeeded = false;
             DatabaseConnection DatabaseConnection = new DatabaseConnection();
             string connectionstring = DatabaseConnection.ConnectionString();
-            SqliteCommand cs = new SqliteCommand();
-            cs.Connection = new SqliteConnection(connectionstring);
+            SqliteCommand sqliteCommand = new SqliteCommand();
+            sqliteCommand.Connection = new SqliteConnection(connectionstring);
 
             try
             {
@@ -36,7 +36,7 @@ namespace BangazonFinancialReports
             catch
             {
 
-                cs.CommandType = CommandType.Text;
+                sqliteCommand.CommandType = CommandType.Text;
 
                 DatabaseConnection.createTables();
 
@@ -67,9 +67,9 @@ namespace BangazonFinancialReports
                     // switch (stuff)
                     // {
                     //     case "1":
-                    //         cs.CommandText = "SELECT * FROM Revenue";
-                    //         cs.Connection.Open();
-                    //         reader = cs.ExecuteReader();
+                    //         sqliteCommand.CommandText = "SELECT * FROM Revenue";
+                    //         sqliteCommand.Connection.Open();
+                    //         reader = sqliteCommand.ExecuteReader();
                     //         //var proDict = new Dictionary<string, int>();
                     //         while (reader.Read())
                     //         {
@@ -99,10 +99,10 @@ namespace BangazonFinancialReports
                     //         }
                     //         break;
                     //     case "2":
-                    //         cs.CommandText = "SELECT * FROM Revenue";
+                    //         sqliteCommand.CommandText = "SELECT * FROM Revenue";
                     //         //
-                    //         cs.Connection.Open();
-                    //         reader = cs.ExecuteReader();
+                    //         sqliteCommand.Connection.Open();
+                    //         reader = sqliteCommand.ExecuteReader();
                     //         while (reader.Read())
                     //         {
                     //             var hhh = reader[1];
@@ -137,9 +137,9 @@ namespace BangazonFinancialReports
                     //     case "3":
                     //         var h = DateTime.Today.AddDays(-90);
 
-                    //         cs.CommandText = "SELECT * FROM Revenue WHERE PurchaseDate >= " + h;
-                    //         cs.Connection.Open();
-                    //         reader = cs.ExecuteReader();
+                    //         sqliteCommand.CommandText = "SELECT * FROM Revenue WHERE PurchaseDate >= " + h;
+                    //         sqliteCommand.Connection.Open();
+                    //         reader = sqliteCommand.ExecuteReader();
                     //         while (reader.Read())
                     //         {
                     //             var i = reader[1];
@@ -156,9 +156,9 @@ namespace BangazonFinancialReports
                     //         }
                     //         break;
                     //     case "4":
-                    //         cs.CommandText = string.Format("SELECT * FROM Revenue");
-                    //         cs.Connection.Open();
-                    //         reader = cs.ExecuteReader();
+                    //         sqliteCommand.CommandText = string.Format("SELECT * FROM Revenue");
+                    //         sqliteCommand.Connection.Open();
+                    //         reader = sqliteCommand.ExecuteReader();
                     //         //LIST DOESN'T WORK NEED DICTIONARY TO CHANGE VALUES
                     //         Dictionary<string, int> customerReportValues = new Dictionary<string, int>();
                     //         while (reader.Read())
@@ -179,9 +179,9 @@ namespace BangazonFinancialReports
                     //         }
                     //         break;
                     //     case "5":
-                    //         cs.CommandText = string.Format("SELECT * FROM Revenue");
-                    //         cs.Connection.Open();
-                    //         reader = cs.ExecuteReader();
+                    //         sqliteCommand.CommandText = string.Format("SELECT * FROM Revenue");
+                    //         sqliteCommand.Connection.Open();
+                    //         reader = sqliteCommand.ExecuteReader();
 
                     //         //THERE HAS TO BE A BETTER WAY TO SORT
                     //         Dictionary<string, int> productRevenue = new Dictionary<string, int>();
