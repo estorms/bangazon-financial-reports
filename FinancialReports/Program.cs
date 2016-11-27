@@ -72,28 +72,28 @@ namespace BangazonFinancialReports
                     while (reader.Read())
                     {
                         //product name
-                        var i = reader[1];
-                        //product name as one string
-                        var hh = i.ToString();
+                        var ProductName = reader[1];
+                        //product name object to string (necessary b/c can't implicitly convert from obj to string)
+                        var ProductNameToString = ProductName.ToString();
                         //product revenue
-                        var a = reader[3];
-                        //product revenue to string
-                        var t = a.ToString();
-                        //product revenue string to int?
-                        var e = int.Parse(t);
+                        var productRevenue = reader[3];
+                        //product revenue object to string
+                        var ProductRevenueToString = productRevenue.ToString();
+                        //product revenue string to int
+                        var ProductRevenueInt  = int.Parse(ProductRevenueToString);
                         //purchase date
-                        var r = reader[9];
+                        var PurchaseDate = reader[9];
                         //  purchase date to string
-                        var p = r.ToString();
+                        var PurchaseDateToString = PurchaseDate.ToString();
                         //parsing date from purchase-date string?
-                        var o = DateTime.Parse(p);
+                        var ParsedPurchaseDate = DateTime.Parse(PurchaseDateToString);
                        //establishing end of prior week
-                        var s = DateTime.Today.AddDays(-7);
+                        var EndOfWeek = DateTime.Today.AddDays(-7);
                         //sets report data as key value pair, first value product name, second value product revenue
-                        var reportData = new KeyValuePair<string, int>(hh, e);
+                        var reportData = new KeyValuePair<string, int>(ProductNameToString, ProductRevenueInt);
 
                         //conditional excludes products purchased during the current week from the report
-                        if (o > s)
+                        if (ParsedPurchaseDate > EndOfWeek)
                         {
                             // proDict.Add(hh, e);     
                             reportValues.Add(reportData);
