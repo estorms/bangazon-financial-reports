@@ -33,9 +33,10 @@ namespace BangazonFinancialReports
                 });
                 // Console.WriteLine("database has already been seeded");
             }
-            catch
+            catch (Exception e)
             {
 
+                Console.WriteLine(e.ToString());
                 sqliteCommand.CommandType = CommandType.Text;
                 DatabaseConnection.createTables();
                 // Console.WriteLine("database has just been seeded");
@@ -44,6 +45,7 @@ namespace BangazonFinancialReports
 
             RevenueFactory revenueFactory = new RevenueFactory();
             var AllRevenue = revenueFactory.GetAllRevenueEntries();
+            var RevenueByProduct = revenueFactory.GetRevenueByProduct();
             List<Revenue> RevenueToPrint = new List<Revenue>();
             Console.WriteLine("Bangazon Reports");
             bool go_on = true;
@@ -81,7 +83,6 @@ namespace BangazonFinancialReports
 
                         case "2":
                             {
-                                Console.WriteLine("case 2");
                                 foreach (var r in AllRevenue)
                             {
                                 if (r.PurchaseDate > EndOfMonth)
@@ -99,8 +100,7 @@ namespace BangazonFinancialReports
 
                         case "3":
                             {
-                                Console.WriteLine("case 2");
-                                       foreach (var r in AllRevenue)
+                        foreach (var r in AllRevenue)
                             {
                                 if (r.PurchaseDate > EndOfQuarter)
                                 {
@@ -118,17 +118,23 @@ namespace BangazonFinancialReports
                             {
                                 Console.WriteLine("case 4");
                                 break;
+                                
                             }
+
+//NOT ALWAYS ORDERING CORRECTLY
                         case "5":
                             {
                                 Console.WriteLine("case 5");
+                                  foreach (KeyValuePair<string, int> r in RevenueByProduct)
+                            {
+                                Console.WriteLine(string.Format("Product Name: {0} Product Revenue: ${1}.00 in revenue.",  r.Key, r.Value));
+                            }
                                 break;
                             }
                     }
                 }
                 catch (Exception ex)
                 {
-                    //ADDING ERROR HANDLING
                     Console.WriteLine("Sorry an error has occcured. Please try agin ");
                     Console.WriteLine($"{ex}");
                     go_on = false;
