@@ -143,7 +143,7 @@ namespace BangazonFinancialReports
                 }
                 catch (Exception ex)
                 {
-                    Console.WriteLine("Sorry an error has occcured. Please try agin ");
+                    Console.WriteLine("Sorry an error has occcured. Please try again ");
                     Console.WriteLine($"{ex}");
                     go_on = false;
                     Console.ReadKey();

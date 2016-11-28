@@ -1,8 +1,10 @@
 using System;
-using System.Collections.Generic;
 
 namespace BangazonFinancialReports
+
 {
+    // Class: Revenue
+    //Author: Liz Sanger
     public class Revenue
     {
         public int Id { get; set; }

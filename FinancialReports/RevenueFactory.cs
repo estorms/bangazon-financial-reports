@@ -7,6 +7,9 @@ using Microsoft.Data.Sqlite;
 
 namespace BangazonFinancialReports
 {
+
+    //Class: Revenue Factory
+    //Methods: 
     public class RevenueFactory
     {
         public DatabaseConnection dbConnection = new DatabaseConnection();
@@ -42,7 +45,7 @@ namespace BangazonFinancialReports
             dbConnection.execute(@"Select Revenue.ProductName,
             sum(Revenue.ProductRevenue) 
             from Revenue
-        
+    
             group by Revenue.ProductName
             order by sum(Revenue.ProductRevenue) desc",  
     
