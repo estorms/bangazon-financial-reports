@@ -17,6 +17,12 @@ namespace BangazonFinancialReports
             string connectionstring = DatabaseConnection.ConnectionString();
             SqliteCommand sqliteCommand = new SqliteCommand();
             sqliteCommand.Connection = new SqliteConnection(connectionstring);
+            string Banner = "==========================";
+            string Greeting = "BANGAZON FINANCIAL REPORTS";
+         
+            //Greet the user and prompt to enter name or create account and capture user input
+
+            Console.WriteLine(Banner + "\r\n" + Greeting + "\r\n" + Banner);
 
             try
             {
@@ -46,8 +52,8 @@ namespace BangazonFinancialReports
             RevenueFactory revenueFactory = new RevenueFactory();
             var AllRevenue = revenueFactory.GetAllRevenueEntries();
             var RevenueByProduct = revenueFactory.GetRevenueByProduct();
+            var RevenueByCustomer = revenueFactory.GetRevenueByCustomer();
             List<Revenue> RevenueToPrint = new List<Revenue>();
-            Console.WriteLine("Bangazon Reports");
             bool go_on = true;
 
             while (go_on)
@@ -55,11 +61,11 @@ namespace BangazonFinancialReports
                 try
                 {
 
-                    Console.WriteLine("1 - Last Week's Report");
-                    Console.WriteLine("2 - Last Month's Report");
-                    Console.WriteLine("3 - Last Quarter's Report");
-                    Console.WriteLine("4 - Revenue by Customer");
-                    Console.WriteLine("5 - Revenue by Product");
+                    Console.WriteLine("1. Weekly Report");
+                    Console.WriteLine("2. Monthly Report");
+                    Console.WriteLine("3. Quarterly Report");
+                    Console.WriteLine("4. Customer Revenue Report");
+                    Console.WriteLine("5. Product Revenue Report");
 
                     string userChoice = Console.ReadLine();
                     Console.WriteLine(userChoice);
@@ -77,7 +83,7 @@ namespace BangazonFinancialReports
 
                             foreach (var r in RevenueToPrint)
                             {
-                                Console.WriteLine(string.Format("{0} was purchased with ${1}.00 in revenue.", r.ProductName, r.ProductCost));
+                                Console.WriteLine(string.Format("WEEKLY REPORT: Product: {0} Revenue: ${1}.00 ", r.ProductName, r.ProductCost));
                             }
                             break;
 
@@ -93,7 +99,7 @@ namespace BangazonFinancialReports
 
                             foreach (var r in RevenueToPrint)
                             {
-                                Console.WriteLine(string.Format("{0} was purchased with ${1}.00 in revenue.", r.ProductName, r.ProductCost));
+                                Console.WriteLine(string.Format("MONTHLY REPORT: Product: {0} Revenue: ${1}.00 in revenue.", r.ProductName, r.ProductCost));
                             }
                                 break;
                             }
@@ -114,20 +120,22 @@ namespace BangazonFinancialReports
                             }
                                 break;
                             }
-                        case "4":
+                      case "4":
                             {
-                                Console.WriteLine("case 4");
+                                // Console.WriteLine("case 5");
+                                  foreach (KeyValuePair<string, int> r in RevenueByCustomer)
+                            {
+                                Console.WriteLine(string.Format("Custome Name: {0}       Customer Revenue: ${1}.00",  r.Key, r.Value));
+                            }
                                 break;
-                                
                             }
 
-//NOT ALWAYS ORDERING CORRECTLY
                         case "5":
                             {
-                                Console.WriteLine("case 5");
+                                // Console.WriteLine("case 5");
                                   foreach (KeyValuePair<string, int> r in RevenueByProduct)
                             {
-                                Console.WriteLine(string.Format("Product Name: {0} Product Revenue: ${1}.00 in revenue.",  r.Key, r.Value));
+                                Console.WriteLine(string.Format("Product Name: {0}       Product Revenue: ${1}.00",  r.Key, r.Value));
                             }
                                 break;
                             }

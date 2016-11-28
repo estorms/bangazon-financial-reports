@@ -13,7 +13,8 @@ namespace BangazonFinancialReports
         public List<Revenue> GetAllRevenueEntries()
         {
             List<Revenue> AllRevenue = new List<Revenue>();
-            dbConnection.execute(@"select * FROM Revenue",
+            dbConnection.execute(@"select * FROM Revenue
+            order by Revenue.ProductName",
                     (SqliteDataReader reader) =>
                     {
                         while (reader.Read())
@@ -38,11 +39,13 @@ namespace BangazonFinancialReports
         {
 
             Dictionary<string, int> RevenueByProduct = new Dictionary<string, int>();
-            dbConnection.execute(@"Select Revenue.ProductName as 'Product Name',
-            sum(Revenue.ProductRevenue) as 'Revenue per Product'
+            dbConnection.execute(@"Select Revenue.ProductName,
+            sum(Revenue.ProductRevenue) 
             from Revenue
+        
             group by Revenue.ProductName
-            order by 'Revenue per Product' desc",
+            order by sum(Revenue.ProductRevenue) desc",  
+    
                     (SqliteDataReader reader) =>
                     {
                         while (reader.Read())
@@ -51,6 +54,28 @@ namespace BangazonFinancialReports
                         }
                     });
             return RevenueByProduct;
+        }
+
+           public Dictionary<string, int> GetRevenueByCustomer()
+        {
+
+            Dictionary<string, int> RevenueByCustomer = new Dictionary<string, int>();
+            dbConnection.execute(@"Select 
+            Revenue.CustomerFirstName,
+            Revenue.CustomerLastName,
+            sum(Revenue.ProductRevenue) 
+            from Revenue
+            group by Revenue.CustomerFirstName
+            order by sum(Revenue.ProductRevenue) desc",  
+    
+                    (SqliteDataReader reader) =>
+                    {
+                        while (reader.Read())
+                        {
+                        RevenueByCustomer.Add(reader[0].ToString() + " " + reader[1].ToString(), reader.GetInt32(2));
+                        }
+                    });
+            return RevenueByCustomer;
         }
     }
 }
